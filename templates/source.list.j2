@@ -1,0 +1,2 @@
+# {{ ansible_managed }}
+{{ type }}{% if signed %} [signed-by=/etc/apt/trusted.gpg.d/{{ signed }}.asc]{% endif %} {{ uri }} {{ suite }} {{ components }}

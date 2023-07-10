@@ -1,0 +1,5 @@
+---
+apt_repository_components: main
+apt_repository_key_checksum: ""
+apt_repository_key_url: ""
+apt_repository_type: deb

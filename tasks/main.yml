@@ -1,0 +1,22 @@
+---
+- name: Add {{ apt_repository_name }} repository key
+  ansible.builtin.get_url:
+    url: "{{ apt_repository_key_url }}"
+    dest: /etc/apt/trusted.gpg.d/{{ apt_repository_name }}.asc
+    checksum: "{{ apt_repository_key_checksum }}"
+  when:
+    - apt_repository_key_url
+
+- name: Add {{ apt_repository_name }} repository
+  ansible.builtin.template:
+    src: source.list.j2
+    dest: /etc/apt/sources.list.d/{{ apt_repository_name }}.list
+    owner: root
+    group: root
+    mode: a=r,u+w
+  vars:
+    type: "{{ apt_repository_type }}"
+    signed: "{% if apt_repository_key_url %}{{ apt_repository_name }}{% endif %}"
+    uri: "{{ apt_repository_url }}"
+    suite: "{{ apt_repository_suite | default(ansible_distribution_release) }}"
+    components: "{{ apt_repository_components }}"
